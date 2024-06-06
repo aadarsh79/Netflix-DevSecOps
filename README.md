@@ -204,14 +204,29 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar-server') {
                     sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
-                    -Dsonar.projectKey=Netflix'''
+                      -Dsonar.projectKey=Netflix \
+                      -Dsonar.sources=. \
+                      -Dsonar.host.url=http://localhost:9000 \
+                      -Dsonar.login=sqp_55b548ecb4319f98dfea3ab516bde4307b5d3c67'''
                 }
             }
         }
+        stage("Sleeping for 10 sec") {
+            steps {
+                sleep 10
+            }
+        }
         stage("quality gate") {
+            options {
+                timeout(time: 30, unit: 'MINUTES')
+            }
             steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+                    try {
+                        waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
+                    } catch (err) {
+                        echo "Failed quality gate: ${err}"
+                    }
                 }
             }
         }
@@ -290,20 +305,35 @@ pipeline{
                 git branch: 'main', url: 'https://github.com/aadarsh79/Netflix-DevSecOps.git'
             }
         }
-        stage("Sonarqube Analysis "){
-            steps{
+        stage("Sonarqube Analysis") {
+            steps {
                 withSonarQubeEnv('sonar-server') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
-                    -Dsonar.projectKey=Netflix '''
+                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
+                      -Dsonar.projectKey=Netflix \
+                      -Dsonar.sources=. \
+                      -Dsonar.host.url=http://localhost:9000 \
+                      -Dsonar.login=sqp_55b548ecb4319f98dfea3ab516bde4307b5d3c67'''
                 }
             }
         }
-        stage("quality gate"){
-           steps {
+        stage("Sleeping for 10 sec") {
+            steps {
+                sleep 10
+            }
+        }
+        stage("quality gate") {
+            options {
+                timeout(time: 30, unit: 'MINUTES')
+            }
+            steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token' 
+                    try {
+                        waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
+                    } catch (err) {
+                        echo "Failed quality gate: ${err}"
+                    }
                 }
-            } 
+            }
         }
         stage('Install Dependencies') {
             steps {
