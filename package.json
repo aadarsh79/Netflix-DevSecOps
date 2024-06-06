@@ -1,12 +1,13 @@
 {
-  "name": "netflix-clone-using-react-typescript-mui",
-  "version": "0.1.1",
+  "name": "netflix-app",
+  "version": "0.1.2",
   "type": "module",
   "private": true,
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preinstall": "npx npm-force-resolutions"
   },
   "dependencies": {
     "@emotion/react": "^11.10.0",
@@ -30,7 +31,13 @@
     "@types/react-dom": "^18.0.8",
     "@types/react-slick": "^0.23.10",
     "@vitejs/plugin-react": "^2.2.0",
+    "npm-force-resolutions": "^0.0.10",
     "typescript": "^4.6.4",
     "vite": "^3.2.1"
+  },
+  "resolutions": {
+    "inflight": "^1.0.6",
+    "glob": "^7.2.0",
+    "sourcemap-codec": "@jridgewell/sourcemap-codec"
   }
 }
