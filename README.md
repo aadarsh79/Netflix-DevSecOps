@@ -204,22 +204,11 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar-server') {
                     sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
-                      -Dsonar.projectKey=Netflix \
-                      -Dsonar.sources=. \
-                      -Dsonar.host.url=http://localhost:9000 \
-                      -Dsonar.login=sqp_55b548ecb4319f98dfea3ab516bde4307b5d3c67'''
+                    -Dsonar.projectKey=Netflix'''
                 }
             }
         }
-        stage("Sleeping for 10 sec") {
-            steps {
-                sleep 10
-            }
-        }
         stage("quality gate") {
-            options {
-                timeout(time: 30, unit: 'MINUTES')
-            }
             steps {
                 script {
                     try {
@@ -309,22 +298,11 @@ pipeline{
             steps {
                 withSonarQubeEnv('sonar-server') {
                     sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
-                      -Dsonar.projectKey=Netflix \
-                      -Dsonar.sources=. \
-                      -Dsonar.host.url=http://localhost:9000 \
-                      -Dsonar.login=sqp_55b548ecb4319f98dfea3ab516bde4307b5d3c67'''
+                    -Dsonar.projectKey=Netflix'''
                 }
             }
         }
-        stage("Sleeping for 10 sec") {
-            steps {
-                sleep 10
-            }
-        }
         stage("quality gate") {
-            options {
-                timeout(time: 30, unit: 'MINUTES')
-            }
             steps {
                 script {
                     try {
